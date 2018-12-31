@@ -1,0 +1,47 @@
+---
+- name: setup gateway host
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks: 
+    - name: add ssh keys to account
+      digital_ocean:
+        state: present
+        command: ssh
+        name: "{{ item.name }}"
+        ssh_pub_key: "{{ item.material }}"
+      loop: "{{ ssh_keys }}"
+      register: ssh_keys
+    - name: init digital ocean droplet 
+      digital_ocean:
+        state: present
+        command: droplet
+        name: "{{ gateway_name }}"
+        size_id: "{{ do_size }}"
+        region_id: "{{ do_region }}"
+        image_id: "{{ do_image }}"
+        unique_name: yes
+        private_networking: no
+        ssh_key_ids: "{{ ssh_keys.results | map(attribute='ssh_key.id') | list }}"
+        wait_timeout: 300
+      register: do
+    - name: add new host to the inventory
+      add_host:
+        name: "{{ do.droplet.ip_address }}"
+        groups: gateways
+      when: do.droplet is defined
+      changed_when: false
+
+- name: setup gateway apps
+  hosts: gateways
+  remote_user: root
+  pre-tasks:
+    - name: wait for ssh
+      local_action: "wait_for port=22 host={{ inventory_hostname }}"
+    - name: install packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ gateway_packages }}"
+  roles:
+    - pritunl

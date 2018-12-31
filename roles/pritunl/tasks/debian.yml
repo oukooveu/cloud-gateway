@@ -1,0 +1,44 @@
+---
+- name: include correct vars for {{ ansible_distribution }}
+  when: ansible_distribution=="Ubuntu"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution | lower }}.yml"
+    - "main.yml"
+
+- name: install pritunl repo
+  template:
+    src: pritunl.list.j2
+    dest: /etc/apt/sources.list.d/pritunl.list
+
+- name: install mongo-db repo
+  template:
+    src: mongodb.deb.list.j2
+    dest: "/etc/apt/sources.list.d/mongodb-org-{{ mongo_version }}.list"
+
+- name: install apt keys
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ item }}"
+  loop:
+    - 9DA31620334BD75D9DCB49F368818C72E52529D4
+    - 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+
+- name: install pritunl and dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - mongodb-org
+    - openvpn
+    - pritunl
+
+- name: start pritunl
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - pritunl
+    - mongod
