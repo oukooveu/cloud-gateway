@@ -4,15 +4,19 @@
 VAGRANTFILE_API_VERSION = "2"
 
 HOSTS = [
-  { :name => "test-gw-1", :ip => "192.168.100.17" },
-  { :name => "test-gw-2", :ip => "192.168.100.33" }
+  { :name => "test-gw-1", :ext_ip => "172.16.100.17", :int_name => "test-1", :int_ip => "192.168.17.1" },
+  { :name => "test-host-1", :int_name => "test-1", :int_ip => "192.168.17.2" },
+  { :name => "test-gw-2", :ext_ip => "172.16.100.33", :int_name => "test-2", :int_ip => "192.168.18.1" },
+  { :name => "test-host-2", :int_name => "test-2", :int_ip => "192.168.18.2" }
 ]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   HOSTS.each do |host|
     config.vm.define host[:name] do |h|
       h.vm.box = "centos/7"
-      h.vm.network "private_network", ip: host[:ip]
+      h.vm.hostname = host[:name]
+      h.vm.network "private_network", ip: host[:ext_ip] if host.key?(:ext_ip)
+      h.vm.network "private_network", ip: host[:int_ip], virtualbox__intnet: host[:int_name]
       h.vm.provider :virtualbox do |v|
         v.memory = 512
         v.cpus = 1
@@ -26,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ansible.verbose = "v"
           ansible.playbook = "playbooks/gateway.yaml"
           ansible.groups = {
-            "gateways" => HOSTS.map{|h| h[:name]}
+            "gateways" => HOSTS.select{|h| h.key?(:ext_ip)}.map{|h| h[:name]}
           }
         end
       end
