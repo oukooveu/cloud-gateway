@@ -12,7 +12,7 @@
   digital_ocean:
     state: present
     command: droplet
-    name: "{{ gateway_name }}"
+    name: "{{ do_name }}"
     size_id: "{{ do_size }}"
     region_id: "{{ do_region }}"
     image_id: "{{ do_image }}"
