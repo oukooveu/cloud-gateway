@@ -1,0 +1,33 @@
+---
+- name: check for run flag
+  stat:
+    path: "{{ ansible_run_flag }}"
+  register: ansible_run_flag_exists
+
+- name: update rpm packages
+  when:
+    - ansible_os_family == "RedHat"
+    - system_force_update or not ansible_run_flag_exists.stat.exists
+  yum:
+    name: '*'
+    state: latest
+
+- name: update apt packages
+  when:
+    - ansible_os_family == "Debian"
+    - system_force_update or not ansible_run_flag_exists.stat.exists
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: install common packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ system_packages.common }}"
+
+- name: "install system specific packages for {{ ansible_os_family }}"
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ system_packages[ansible_os_family|lower] }}"

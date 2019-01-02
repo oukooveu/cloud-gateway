@@ -3,24 +3,6 @@
   hosts: gateways
   become: true
   pre_tasks:
-    - name: check for run flag
-      stat:
-        path: "{{ ansible_run_flag }}"
-      register: ansible_run_flag_exists
-    - name: update rpm packages
-      yum:
-        state: latest
-        name: '*'
-      when:
-        - ansible_os_family == "RedHat"
-        - system_force_update or not ansible_run_flag_exists.stat.exists
-    - name: update apt packages
-      apt:
-        upgrade: yes
-        update_cache: yes
-      when:
-        - ansible_os_family == "Debian"
-        - system_force_update or not ansible_run_flag_exists.stat.exists
     - name: install packages
       package:
         name: "{{ item }}"
@@ -31,4 +13,5 @@
         src: ansible.run
         dest: "{{ ansible_run_flag }}"
   roles:
+    - generic-host
     - pritunl
