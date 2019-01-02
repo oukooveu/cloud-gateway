@@ -1,9 +1,0 @@
----
-gateway_name: 'test-gw'
-gateway_packages:
-  - epel-release
-  - tcpdump
-  - bind-utils
-  - nmap-ncat
-  - openvpn
-  - libreswan
