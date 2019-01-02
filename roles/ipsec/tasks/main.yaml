@@ -1,0 +1,32 @@
+---
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - libreswan
+    - tcpdump
+    - bind-utils
+    - nmap-ncat
+
+- name: create /etc/ipsec.d/{{ item.key }}.conf
+  template:
+    src: connection.conf
+    dest: "/etc/ipsec.d/{{ item.key }}.conf"
+    mode: '0644'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
+
+- name: create /etc/ipsec.d/{{ item.key }}.secrets
+  template:
+    src: connection.secrets
+    dest: "/etc/ipsec.d/{{ item.key }}.secrets"
+    mode: '0600'
+  loop: "{{ ipsec_connections | dict2items }}"
+  notify: restart ipsec service
+
+- name: enable and start ipsec service
+  service:
+    name: ipsec
+    state: started
+    enabled: yes
