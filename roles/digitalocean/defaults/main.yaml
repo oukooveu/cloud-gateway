@@ -2,3 +2,4 @@
 do_image: 'centos-7-x64'
 do_size: '1gb'
 do_region: 'ams3'
+do_ssh_keys: []
