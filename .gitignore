@@ -1,6 +1,2 @@
-# vagrant
-.vagrant/
-
-# ansible
 logs/
 *.retry
