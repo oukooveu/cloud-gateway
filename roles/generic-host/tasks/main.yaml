@@ -31,3 +31,8 @@
     name: "{{ item }}"
     state: present
   loop: "{{ system_packages[ansible_os_family|lower] }}"
+
+- name: "create {{ ansible_run_flag }}"
+  template:
+    src: ansible.run
+    dest: "{{ ansible_run_flag }}"
