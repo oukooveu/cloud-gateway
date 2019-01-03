@@ -6,7 +6,7 @@ ipsec_connections:
     psk: 'test123'
     options:
       leftsubnet: '192.168.18.0/24'
-      rightsubnet: '192.168.17.0/24'
+      rightsubnets: '192.168.17.0/24,192.168.220.0/24'
       authby: 'secret'
       auto: 'start'
       type: 'tunnel'

@@ -5,7 +5,7 @@ ipsec_connections:
     remote_gateway_ip: '172.16.100.33'
     psk: 'test123'
     options:
-      leftsubnet: '192.168.17.0/24'
+      leftsubnets: '192.168.17.0/24,192.168.220.0/24'
       rightsubnet: '192.168.18.0/24'
       authby: 'secret'
       auto: 'start'
