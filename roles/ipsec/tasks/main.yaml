@@ -15,7 +15,7 @@
     value: 1
     state: present
 
-- name: create /etc/ipsec.d/{{ item.key }}.conf
+- name: "create ipsec conf files"
   template:
     src: connection.conf
     dest: "/etc/ipsec.d/{{ item.key }}.conf"
@@ -23,7 +23,7 @@
   loop: "{{ ipsec_connections | dict2items }}"
   notify: restart ipsec service
 
-- name: create /etc/ipsec.d/{{ item.key }}.secrets
+- name: "create ipsec secrets files"
   template:
     src: connection.secrets
     dest: "/etc/ipsec.d/{{ item.key }}.secrets"
