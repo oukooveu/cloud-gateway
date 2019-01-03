@@ -9,6 +9,12 @@
     - bind-utils
     - nmap-ncat
 
+- name: enable forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+
 - name: create /etc/ipsec.d/{{ item.key }}.conf
   template:
     src: connection.conf
