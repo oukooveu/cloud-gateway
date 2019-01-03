@@ -1,17 +1,8 @@
 ---
-- name: setup gateway apps
+- name: setup ipsec/openvpn gateway
   hosts: gateways
   become: true
-  pre_tasks:
-    - name: install packages
-      package:
-        name: "{{ item }}"
-        state: present
-      loop: "{{ gateway_packages }}"
-    - name: "create {{ ansible_run_flag }}"
-      template:
-        src: ansible.run
-        dest: "{{ ansible_run_flag }}"
   roles:
     - generic-host
+    - ipsec
     - pritunl
