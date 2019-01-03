@@ -1,0 +1,8 @@
+---
+- name: setup ipsec/openvpn test environment
+  hosts: gateways
+  become: true
+  roles:
+    - generic-host
+    - ipsec
+    - pritunl

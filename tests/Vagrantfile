@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           ansible.compatibility_mode = "2.0"
           ansible.limit = "all"
           ansible.verbose = "v"
-          ansible.playbook = "playbooks/gateway.yaml"
+          ansible.playbook = "playbook.yaml"
           ansible.groups = {
             "gateways" => HOSTS.select{|h| h.key?(:ext_ip)}.map{|h| h[:name]}
           }
