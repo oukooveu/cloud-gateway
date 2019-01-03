@@ -1,4 +1,11 @@
 ---
+- name: setup host in digitalocean
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - digitalocean
+
 - name: setup ipsec/openvpn gateway
   hosts: gateways
   become: true
