@@ -11,8 +11,8 @@ Pritunl server adds NAT masquerading for [routes](https://docs.pritunl.com/docs/
 ```
 use pritunl
 db.servers.updateOne(
-    {_id : ObjectId("<ID>")},
-    {$set : {"routes.<INDEX>.nat" : "true"}}
+    { _id : ObjectId("<ID>") },
+    { $set : { "routes.<INDEX>.nat" : false } }
 )
 ```
 
