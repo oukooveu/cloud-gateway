@@ -1,0 +1,13 @@
+---
+- src: https://github.com/oukooveu/ansible-role-pritunl.git
+  name: pritunl
+  version: master
+- src: https://github.com/oukooveu/ansible-role-libreswan.git
+  name: libreswan
+  version: master
+- src: https://github.com/oukooveu/ansible-role-digitalocean.git
+  name: digitalocean
+  version: master
+- src: https://github.com/oukooveu/ansible-role-generic-host.git
+  name: generic-host
+  version: master
