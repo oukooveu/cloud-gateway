@@ -11,5 +11,5 @@
   become: true
   roles:
     - generic-host
-    - ipsec
+    - libreswan
     - pritunl
