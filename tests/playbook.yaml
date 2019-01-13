@@ -1,8 +1,8 @@
 ---
-- name: setup ipsec/openvpn test environment
+- name: setup ipsec/bgp test environment
   hosts: gateways
   become: true
   roles:
     - generic-host
+    - quagga
     - libreswan
-    - pritunl

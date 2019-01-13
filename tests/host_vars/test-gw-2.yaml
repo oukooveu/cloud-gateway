@@ -10,7 +10,18 @@ ipsec_connections:
       mark: '12/0xffffffff'
       vti-interface: 'vti0'
       vti-routing: 'no'
-      leftvti: '169.254.1.2/24'
+      leftvti: '169.254.169.2/30'
       authby: 'secret'
       auto: 'route'
       type: 'tunnel'
+quagga_conf:
+  bgpd:
+    enabled: true
+    config: |
+      router bgp 65002
+        bgp router-id 172.16.100.33
+        network 192.168.18.0/24
+        neighbor 169.254.169.1 remote-as 65001
+      !
+      line vty
+      !
