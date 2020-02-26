@@ -1,2 +1,2 @@
-ansible==2.7.12
+ansible==2.7.16
 dopy==0.3.5
