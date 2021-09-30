@@ -1,0 +1,25 @@
+#!/bin/bash
+set -eo pipefail
+
+cd $(dirname $0)
+
+# environment
+python -m venv .venv
+source .venv/bin/activate
+pip install -r ../requirements.txt
+ansible-galaxy install -r ../requirements.yaml
+
+# provisioning
+vagrant validate
+time vagrant up
+vagrant status
+
+# debug
+vagrant ssh test-gw-1 -c 'cat /etc/redhat-release'
+vagrant ssh test-gw-2 -c 'sudo ipsec auto status'
+
+# tests
+vagrant ssh test-host-1 -c 'ping -c3 192.168.18.100'
+vagrant ssh test-host-2 -c 'ping -c3 192.168.17.100'
+
+echo OK

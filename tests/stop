@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eo pipefail
+
+cd $(dirname $0)
+
+vagrant destroy -f
+
+[ -d .venv ] && rm -rf .venv
+
+echo OK

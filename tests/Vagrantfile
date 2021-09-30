@@ -4,10 +4,10 @@
 VAGRANTFILE_API_VERSION = "2"
 
 HOSTS = [
-  { :name => "test-gw-1", :ext_ip => "172.16.100.17", :int_name => "test-1", :int_ip => "192.168.17.1" },
-  { :name => "test-host-1", :int_name => "test-1", :int_ip => "192.168.17.2", :gateway => "192.168.17.1" },
-  { :name => "test-gw-2", :ext_ip => "172.16.100.33", :int_name => "test-2", :int_ip => "192.168.18.1" },
-  { :name => "test-host-2", :int_name => "test-2", :int_ip => "192.168.18.2", :gateway => "192.168.18.1" }
+  { :name => "test-gw-1", :ext_ip => "172.16.100.17", :int_name => "test-1", :int_ip => "192.168.17.254" },
+  { :name => "test-host-1", :int_name => "test-1", :int_ip => "192.168.17.100", :gateway => "192.168.17.254" },
+  { :name => "test-gw-2", :ext_ip => "172.16.100.33", :int_name => "test-2", :int_ip => "192.168.18.254" },
+  { :name => "test-host-2", :int_name => "test-2", :int_ip => "192.168.18.100", :gateway => "192.168.18.254" }
 ]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|

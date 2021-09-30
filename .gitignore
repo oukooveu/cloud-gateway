@@ -1,3 +1,4 @@
 logs/
 .roles/
 *.retry
+**/.venv
